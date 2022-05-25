@@ -1,0 +1,14 @@
+# env
+.env
+
+# dependencies
+/node_modules
+
+# out jpg
+/screenshot
+
+# misc
+.DS_Store
+
+# yarn
+yarn.lock
