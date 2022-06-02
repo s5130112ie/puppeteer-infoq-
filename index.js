@@ -61,10 +61,21 @@ var fs = require('fs');
     const url = urls[urlIndex];
     await page.goto(url);
     await page.waitForSelector('div.chartjs-size-monitor', {timeout: 60000});
+
+    await page.evaluate(() => {
+      // 調整右側邊欄長度
+      const layoutPane = document.getElementsByClassName("layout-pane");
+      layoutPane[1].style.width = '200px';
+
+      // 刪除左側懶
+      var topMenu = document.getElementsByClassName("top")[0];
+      if (topMenu) topMenu.parentNode.removeChild(topMenu);
+    });
+
     await delay(2000);
     var newUrl = new URL(url);
     var cfg = newUrl.searchParams.get("cfg");
-    const element = await page.$('#root > div > main > div > div.bottom > div > div.report > div > div.body > div > div > div:nth-child(3)');
+    const element = await page.$('.no-filters-configs:nth-child(1)');
     await element.screenshot({path: `${path}${cfg}.png`});
     urlIndex++;
   }
