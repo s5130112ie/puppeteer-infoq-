@@ -99,7 +99,8 @@ const setting = require('./setting.json');
     emails.concat(', '),
     setting.subject,
     setting.text,
-    attachments
+    attachments,
+    imgType,
   );
 
   await delay(3000);
