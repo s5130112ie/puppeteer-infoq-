@@ -5,7 +5,6 @@ const puppeteer = require('puppeteer');
 const moment = require('moment');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
-// const R = require('ramda');
 const setting = require('./setting.json');
 
 (async () => {
