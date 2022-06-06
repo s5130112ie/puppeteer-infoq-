@@ -112,7 +112,7 @@ async function delay(time) {
   });
 }
 
-async function sendEmail(to, subject, text, attachments) {
+async function sendEmail(to, subject, text, attachments, imgType) {
   const transporter = nodemailer.createTransport({
     service: "Outlook365",
     port: 587,
@@ -132,7 +132,12 @@ async function sendEmail(to, subject, text, attachments) {
     from: 'infoq@oppo.com',
     html: `
       ${attachments.map(( attachment ) => (`
-          ${attachment.filename}:<img src="cid:${attachment.cid}"/>
+        <div>
+          ${attachment.filename.replace(`.${imgType}`, '')}:
+          <img src="cid:${attachment.cid}"/>
+          <br />
+          <br />
+        </div>
         `)
       ).join('')}
     `,
