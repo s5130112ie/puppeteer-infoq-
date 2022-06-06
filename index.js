@@ -20,20 +20,9 @@ const setting = require('./setting.json');
 
   // 資料夾路徑
   const date = moment().format("YYYYMMDD");
-  const path = `/screenshot/${date}/`;
+  const path = `./screenshot/${date}/`;
   const urls = setting.urls;
-  await fs.promises.mkdir(`.${path}`, { recursive: true })
-
-  // 寄出email
-  await sendEmail(
-    'ken.chen@sonicsky.net',
-    'How to save a webpage as PDF file and send via email using Puppeteer and Nodemailer',
-    'I thought you might enjoy this jpg!',
-    '6ee1e706.jpg',
-    `${path}6ee1e706-da42-11ec-958d-fa164c8ae5b0.jpg`);
-
-  await delay(10000);
-  await browser.close(); //FIXME
+  await fs.promises.mkdir(`${path}`, { recursive: true })
 
   // 瀏覽器語系, 讓infoq顯示中文
   await page.setExtraHTTPHeaders({
@@ -69,10 +58,13 @@ const setting = require('./setting.json');
   });
   if (isNeedClick) await page.click('.pop-mode');
 
+  const imgType = 'jpg';
+
   // 截圖
+  const attachments = [];
   let urlIndex = 0;
   while (urlIndex < urls.length) {
-    const url = urls[urlIndex];
+    const url = urls[urlIndex].url;
     await page.goto(url);
     await page.waitForNavigation();
     await page.waitForSelector('div.chartjs-size-monitor', {timeout: 60000});
@@ -91,11 +83,25 @@ const setting = require('./setting.json');
     var newUrl = new URL(url);
     var cfg = newUrl.searchParams.get("cfg");
     const element = await page.$('.no-filters-configs:nth-child(1)');
-    const filename = `.${path}${cfg}.jpg`;
-    await element.screenshot({path: filename});
+    const savePath = `${path}${cfg}.${imgType}`;
+    await element.screenshot({ path: savePath });
+    attachments.push({
+      path: savePath,
+      filename: `${urls[urlIndex].desc}.${imgType}`,
+    })
     urlIndex++;
   }
 
+  // 寄出email
+  const emails = setting.emails;
+  await sendEmail(
+    emails.concat(', '),
+    setting.subject,
+    setting.text,
+    attachments
+  );
+
+  await delay(5000);
   await browser.close();
 })();
 
@@ -105,8 +111,7 @@ async function delay(time) {
   });
 }
 
-async function sendEmail(to, subject, text, filename, fileContent) {
-  let account = await nodemailer.createTestAccount();
+async function sendEmail(to, subject, text, attachments) {
   const transporter = nodemailer.createTransport({
     service: "Outlook365",
     port: 587,
@@ -119,15 +124,12 @@ async function sendEmail(to, subject, text, filename, fileContent) {
   });
 
   const message = {
-      from: 'infoq@oppo.com',
-      to: to,
-      subject: subject,
-      text: text,
-      html: "<b>Hello world?</b>", // html body
-      attachments: [{
-          filename: filename,
-          content: fileContent
-      }]
+    to,
+    subject,
+    text,
+    attachments,
+    from: 'infoq@oppo.com',
+    html: "<b>Hello puppeteer html!</b>",
   };
 
   return new Promise((resolve, reject) => {

@@ -1,7 +1,18 @@
 {
-  "urls": [
-    "http://infoq.oppoer.me/nps-all?cfg=70599f64-d71b-11ec-958d-fa164c8ae5b0",
-    "http://infoq.oppoer.me/nps-all?cfg=d40bf356-da3b-11ec-958d-fa164c8ae5b0",
-    "http://infoq.oppoer.me/nps-all?cfg=6ee1e706-da42-11ec-958d-fa164c8ae5b0"
-  ]
+  "urls": [{
+      "url": "http://infoq.oppoer.me/nps-all?cfg=70599f64-d71b-11ec-958d-fa164c8ae5b0",
+      "desc": "70599f64"
+    }, {
+      "url": "http://infoq.oppoer.me/nps-all?cfg=d40bf356-da3b-11ec-958d-fa164c8ae5b0",
+      "desc": "d40bf356"
+    }, {
+      "url": "http://infoq.oppoer.me/nps-all?cfg=6ee1e706-da42-11ec-958d-fa164c8ae5b0",
+      "desc": "6ee1e706"
+    }
+  ],
+  "emails": [
+    "ken.chen@sonicsky.net"
+  ],
+  "subject": "How to save a webpage as PDF file and send via email using Puppeteer and Nodemailer",
+  "text": "I thought you might enjoy this jpg!"
 }
