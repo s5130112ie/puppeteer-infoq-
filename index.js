@@ -103,7 +103,7 @@ const setting = require('./setting.json');
   // 寄出email
   const emails = setting.emails;
   await sendEmail(
-    emails.concat(', '),
+    emails.join(', '),
     setting.subject,
     setting.text,
     attachments,
@@ -139,6 +139,11 @@ async function sendEmail(to, subject, text, attachments, imgType) {
     attachments,
     from: 'infoq@oppo.com',
     html: `
+      <div>
+        ${text}
+        <br />
+        <br />
+      </div>
       ${attachments.map(( attachment ) => (`
         <div>
           ${attachment.filename.replace(`.${imgType}`, '')}:
