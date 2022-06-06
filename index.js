@@ -113,13 +113,13 @@ async function sendEmail(to, subject, text, filename, fileContent) {
     secure: false, // secure:true for port 465, secure:false for port 587
     tls: { ciphers: 'SSLv3' },
     auth: {
-        user: 's5130112ie@gmail.com',
-        pass: 'xxxxxxxx'
+        user: 'infoq@oppo.com',
+        pass: process.env.PASSWORD
     }
   });
 
   const message = {
-      from: 's5130112ie@gmail.com',
+      from: 'infoq@oppo.com',
       to: to,
       subject: subject,
       text: text,
