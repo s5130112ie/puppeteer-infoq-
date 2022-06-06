@@ -77,6 +77,13 @@ const setting = require('./setting.json');
 
       // 調整右側邊欄長度
       if (layoutPane[1]) layoutPane[1].style.width = '200px';
+
+      // 下方的東西不想截到
+      var master = document.getElementsByClassName("no-filters-configs")[0];
+      if (master) {
+        master.style.marginBottom = '100px';
+        master.style.paddingRight = '10px';
+      }
     });
 
     var newUrl = new URL(url);
