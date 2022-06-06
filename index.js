@@ -108,11 +108,8 @@ async function delay(time) {
 async function sendEmail(to, subject, text, filename, fileContent) {
   let account = await nodemailer.createTestAccount();
   const transporter = nodemailer.createTransport({
-    name: 'smtp.office365.com',
-    // host: 'smtp.office365.com',
     service: "Outlook365",
     port: 587,
-    // secureConnection: false,
     secure: false, // secure:true for port 465, secure:false for port 587
     tls: { ciphers: 'SSLv3' },
     auth: {
