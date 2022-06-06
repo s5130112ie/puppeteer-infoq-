@@ -83,11 +83,13 @@ const setting = require('./setting.json');
     var cfg = newUrl.searchParams.get("cfg");
     const element = await page.$('.no-filters-configs:nth-child(1)');
     const savePath = `${path}${cfg}.${imgType}`;
+
     await element.screenshot({ path: savePath });
     attachments.push({
       path: savePath,
-      filename: `${urls[urlIndex].desc}.${imgType}`,
-    })
+      filename: `${urls[urlIndex].name}.${imgType}`,
+      cid: urls[urlIndex].cid
+    });
     urlIndex++;
   }
 
@@ -100,7 +102,7 @@ const setting = require('./setting.json');
     attachments
   );
 
-  await delay(5000);
+  await delay(3000);
   await browser.close();
 })();
 
@@ -128,7 +130,12 @@ async function sendEmail(to, subject, text, attachments) {
     text,
     attachments,
     from: 'infoq@oppo.com',
-    html: "<b>Hello puppeteer html!</b>",
+    html: `
+      ${attachments.map(( attachment ) => (`
+          ${attachment.filename}:<img src="cid:${attachment.cid}"/>
+        `)
+      ).join('')}
+    `,
   };
 
   return new Promise((resolve, reject) => {
