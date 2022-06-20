@@ -23,7 +23,7 @@ const setting = require('./setting.json');
   const urls = setting.urls;
   await fs.promises.mkdir(`${path}`, { recursive: true })
 
-  // 瀏覽器語系, 讓infoq顯示中文
+  // 瀏覽器語系, 讓InfoQ顯示中文
   await page.setExtraHTTPHeaders({
     'Accept-Language': 'cn'
   });
